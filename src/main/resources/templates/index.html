@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -27,7 +27,8 @@
       display: flex;
       align-items: center;
     }
-  </style>
+
+    </style>
 </head>
 <body>
 
@@ -40,15 +41,21 @@
         <div class="col-4 text-center">
             <label for="discountType" class="form-label">Select Customer :</label>
         </div>
-        <div class="col-3 text-center">
-            <select class="form-select" id="discountType">
 
-                <option >Select Id</option>
-                <option value="amount">Amount</option>
+        <div class="col-3 text-center">
+            <!-- Your customer selection dropdown can be populated dynamically -->
+            <select class="form-select" id="discountType" th:field="*{customerCode}">
+                <option value="">Select Customer</option>
+                <option th:each="customer : ${customers}" th:value="${customer.customerCode}"
+                        th:text="${customer.customerName}"></option>
             </select>
         </div>
+
         <div class="col-3 d-flex justify-content-center">
-            <button type="submit" class="btn btn-primary">Calculate Discount</button>
+
+            <button type="submit" class="btn btn-primary" th:onclick="'discount/' + ${customerCode}">Calculate
+                Discount
+            </button>
         </div>
     </div>
 
@@ -62,18 +69,13 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <th scope="row">1</th>
-            <td>John</td>
-            <td>Doe</td>
-            <td>30</td>
+        <tr th:each="discountDto : ${discountDtoList}">
+            <td th:text="${discountDto.invoiceNumber}"></td>
+            <td th:text="${discountDto.customerCode}"></td>
+            <td th:text="${discountDto.customerName}"></td>
+            <td th:text="${discountDto.discount}"></td>
         </tr>
-        <tr>
-            <th scope="row">2</th>
-            <td>Jane</td>
-            <td>Smith</td>
-            <td>25</td>
-        </tr>
+
         </tbody>
     </table>
 </div>

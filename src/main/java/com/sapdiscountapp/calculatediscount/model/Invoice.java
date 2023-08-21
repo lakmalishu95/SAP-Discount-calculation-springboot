@@ -1,36 +1,29 @@
 package com.sapdiscountapp.calculatediscount.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import lombok.Getter;
+import lombok.Setter;
+
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
+@Getter
+@Setter
+@Table(name = "Invoice")
 public class Invoice {
 
     @Id
-    private int inv_number;
-
+    @Column(name = "inv_number")
+    private int invNumber;
+    @Column(name = "customer_code")
+    private int customerCode;
     @ManyToOne
-    @JoinColumn(name = "customer_code", referencedColumnName = "customer_code")
+    @JoinColumn(name = "customer_code", referencedColumnName = "customer_code",insertable = false, updatable = false)
     private Customers customers;
+    @Column(name = "invoice_date")
+    private Date invoiceSetOn;
+    @Column(name = "invoice_setoff_date")
+    private Date invoiceSetOff;
 
-    private String invoice_set_on;
-    private String invoice_set_off;
 
-    public int getInv_number() {
-        return inv_number;
-    }
-
-    public Customers getCustomers() {
-        return customers;
-    }
-
-    public String getInvoice_set_on() {
-        return invoice_set_on;
-    }
-
-    public String getInvoice_set_off() {
-        return invoice_set_off;
-    }
 }
